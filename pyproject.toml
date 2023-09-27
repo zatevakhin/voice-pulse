@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "voice-pulse"
+version = "0.1.0"
+description = "Voice-Pulse is a Python library for real-time speech detection and collection, supporting multiple configurable VAD engines like WebRTC and Silero. Ideal for real-time speech processing applications."
+authors = ["Ivan Zatevakhin"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+sounddevice = "0.4.6"
+pydantic = "2.0"
+numpy = "1.25.2"
+torch = {version = "^2.0.1+cpu", source = "pytorch"}
+torchaudio = {version = "^2.0.2+cpu", source = "pytorch"}
+webrtcvad = "2.0.10"
+onnxruntime = "1.15.1"
+
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+

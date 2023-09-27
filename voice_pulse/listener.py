@@ -140,79 +140,79 @@ class SpeachSegmentCollector:
 class Listener:
     def __init__(self, config: ListenerConfig) -> None:
         self._silence_counter: int = 0
-        self.config: ListenerConfig = config
+        self._config: ListenerConfig = config
 
-        self.speech_filter = None
-        if config.vad_engine == VadEngine.WEBRTC:
-            self.speech_filter = SpeechFilterWebrtcVad(
-                config.vad_aggresivenes, self.config.stream_config.samplerate
+        self._speech_filter = None
+        if self._config.vad_engine == VadEngine.WEBRTC:
+            self._speech_filter = SpeechFilterWebrtcVad(
+                self._config.vad_aggresivenes, self._config.stream_config.samplerate
             )
-        elif config.vad_engine == VadEngine.SILERIO:
-            self.speech_filter = SpeechFilterSilerioVad(
-                config.vad_aggresivenes, self.config.stream_config.samplerate
+        elif self._config.vad_engine == VadEngine.SILERIO:
+            self._speech_filter = SpeechFilterSilerioVad(
+                self._config.vad_aggresivenes, self._config.stream_config.samplerate
             )
         else:
             raise ValueError(
-                f"Support for '{config.vad_engine}' VAD Engine not implemented."
+                f"Support for '{self._config.vad_engine}' VAD Engine not implemented."
             )
 
-        if not self.speech_filter.is_block_duration_supported(
-            self.config.stream_config.block_duration
+        if not self._speech_filter.is_block_duration_supported(
+            self._config.stream_config.block_duration
         ):
             raise ValueError(
-                f"Block duration '{self.config.stream_config.block_duration}' for '{self.speech_filter.__class__.__name__}'."
+                f"Block duration '{self._config.stream_config.block_duration}' for '{self._speech_filter.__class__.__name__}'."
             )
 
-        self.collector = SpeachSegmentCollector(
+        self._collector = SpeachSegmentCollector(
             threshold=config.collect_threshold,
-            samplerate=self.config.stream_config.samplerate,
+            samplerate=self._config.stream_config.samplerate,
         )
-        self.stream = sd.InputStream(
-            callback=self, **self.config.stream_config.model_dump()
+        self._stream = sd.InputStream(
+            callback=self, **self._config.stream_config.model_dump()
         )
-        self.speech_data: Queue = Queue()
+        self._speech_data: Queue = Queue()
 
     def __call__(self, indata: np.ndarray, frames: int, time, status) -> Any:
         indata = indata.flatten()
 
-        if self.apply_speech_filter(indata):
-            self.handle_speech(indata)
+        if self._apply_speech_filter(indata):
+            self._handle_speech(indata)
         else:
-            self.handle_silence()
+            self._handle_silence()
 
-    def apply_speech_filter(self, indata: np.ndarray) -> bool:
-        return self.speech_filter(indata)
+    def _apply_speech_filter(self, indata: np.ndarray) -> bool:
+        return self._speech_filter(indata)
 
-    def handle_speech(self, indata: np.ndarray) -> None:
-        self.collector.add(indata)
+    def _handle_speech(self, indata: np.ndarray) -> None:
+        self._collector.add(indata)
         self._silence_counter = 0
 
-    def handle_silence(self) -> None:
-        if self._silence_counter >= self.config.silence_threshold:
-            self.process_collected_data()
+    def _handle_silence(self) -> None:
+        if self._silence_counter >= self._config.silence_threshold:
+            self._process_collected_data()
         else:
             self._silence_counter += 1
 
-    def process_collected_data(self) -> None:
-        collected_data = self.collector.collect()
+    def _process_collected_data(self) -> None:
+        collected_data = self._collector.collect()
         if collected_data is not None:
-            self.speech_data.put(collected_data)
+            self._speech_data.put(collected_data)
             self._silence_counter = 0
 
     def __del__(self):
-        self.stream.close(ignore_errors=True)
+        self._stream.close(ignore_errors=True)
 
     def __iter__(self):
-        if self.stream.active:
+        if self._stream.active:
             logger.warn("Stream was already activated by creation of another iterator.")
         else:
-            self.stream.start()
+            self._stream.start()
 
         try:
             while True:
-                yield self.speech_data.get()
+                yield self._speech_data.get()
         except GeneratorExit:
-            self.stream.close(ignore_errors=True)
+            self._stream.close(ignore_errors=True)
 
 
 def main():

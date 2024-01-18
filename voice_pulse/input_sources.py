@@ -42,7 +42,7 @@ class MicrophoneInput:
         self.stream.start()
 
     def read(self) -> Optional[np.ndarray]:
-        return self.buffer.get()  # if not self.buffer.empty() else None
+        return self.buffer.get()
 
     def close(self) -> None:
         self.stream.close(ignore_errors=True)
@@ -76,3 +76,21 @@ class FileInput:
 
     def close(self) -> None:
         self.file.close()
+
+
+class CallbackInput:
+    def __init__(self, blocksize: int) -> None:
+        self.blocksize = blocksize
+        self.buffer = Queue()
+
+    def start(self) -> None:
+        pass
+
+    def read(self) -> Optional[np.ndarray]:
+        return self.buffer.get()
+
+    def close(self) -> None:
+        pass
+
+    def receive_chunk(self, data: np.ndarray[np.float32]) -> None:
+        self.buffer.put(data)

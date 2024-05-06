@@ -3,8 +3,6 @@ from queue import Queue
 from typing import Optional, Protocol, Union
 
 import numpy as np
-import sounddevice as sd
-import soundfile as sf
 
 
 class InputSource(Protocol):
@@ -26,6 +24,8 @@ class MicrophoneInput:
         samplerate: int,
         channels: int,
     ) -> None:
+        import sounddevice as sd
+
         self.stream = sd.InputStream(
             callback=self._callback,
             device=device,
@@ -50,6 +50,8 @@ class MicrophoneInput:
 
 class FileInput:
     def __init__(self, file_path: str, blocksize: int, channels: bool) -> None:
+        import soundfile as sf
+
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File '{file_path}' is not found.")
 

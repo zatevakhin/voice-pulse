@@ -4,7 +4,7 @@ def main():
     from voice_pulse.config import Config
     from voice_pulse.enums import VadEngine
     from voice_pulse.input_sources import FileInput, MicrophoneInput
-    from voice_pulse.listener import Listener
+    from voice_pulse.listener import Listener, ListenerStamped
 
     model = WhisperModel("medium", device="cpu", compute_type="int8")
 
@@ -21,10 +21,10 @@ def main():
 
     stream = MicrophoneInput(config.device, config.blocksize, config.samplerate, config.channels)
 
-    for speech in Listener(config, stream):
-        # print(f"speech ({type(speech)})", len(speech))
+    for seg in ListenerStamped(config, stream):
+        print(f"speech segment ({type(seg)})", seg)
 
-        segments, info = model.transcribe(speech, best_of=2)
+        segments, info = model.transcribe(seg.speech, best_of=2)
 
         print(f"> {info.language} ({info.language_probability})")
         for seg in segments:

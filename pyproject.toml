@@ -50,10 +50,10 @@ select = [
 ]
 
 [tool.semantic_release]
-version_variable = [
+version_variables = [
     "pyproject.toml:version"
 ]
-branch = "main"
-upload_to_pypi = false
-upload_to_release = true
+upload_to_vcs_release = true
 build_command = "poetry build"
+commit_parser = "angular"
+tag_format = "v{version}"

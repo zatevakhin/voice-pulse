@@ -6,8 +6,7 @@ from .enums import VadAggressiveness, VadEngine
 
 
 class SpeechFilter(Protocol):
-    def __call__(self, data: np.ndarray) -> bool:
-        ...
+    def __call__(self, data: np.ndarray) -> bool: ...
 
 
 class SpeechFilterWebrtcVad:

@@ -1,6 +1,8 @@
-from pydantic import BaseModel
-import numpy as np
 from datetime import datetime
+
+import numpy as np
+from pydantic import BaseModel
+
 
 class SpeechSegment(BaseModel):
     speech: np.ndarray

@@ -1,0 +1,71 @@
+name: Checks
+
+on:
+  pull_request:
+
+jobs:
+  setup:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ "ubuntu-latest" ]
+        python-version: [ "3.9" ]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.8.3
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: poetry install --no-root --only dev
+
+  test:
+    needs: setup
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ "ubuntu-latest" ]
+        python-version: [ "3.9" ]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.8.3
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Load cached venv
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Run code style check
+        run: poetry run ruff format --check voice_pulse/
+
+      - name: Run code lint
+        run: poetry run ruff check voice_pulse/
+
+      - name: Build project
+        run: poetry build

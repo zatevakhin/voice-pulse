@@ -1,7 +1,7 @@
 import logging
-from queue import Queue
 from datetime import datetime
-from typing import Union, Iterator
+from queue import Queue
+from typing import Iterator, Union
 
 import numpy as np
 import onnxruntime as ort

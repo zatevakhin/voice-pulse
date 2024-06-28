@@ -3,8 +3,8 @@ def main():
 
     from voice_pulse.config import Config
     from voice_pulse.enums import VadEngine
-    from voice_pulse.input_sources import FileInput, MicrophoneInput
-    from voice_pulse.listener import Listener, ListenerStamped
+    from voice_pulse.input_sources import MicrophoneInput
+    from voice_pulse.listener import ListenerStamped
 
     model = WhisperModel("medium", device="cpu", compute_type="int8")
 

@@ -53,7 +53,13 @@ select = [
 version_variables = [
     "pyproject.toml:version"
 ]
-upload_to_vcs_release = true
-build_command = "poetry build"
+branch = "main"
 commit_parser = "angular"
-tag_format = "v{version}"
+
+[tool.semantic_release.remote]
+type = "github"
+token = { env = "GH_TOKEN" }
+
+[tool.semantic_release.publish]
+upload_to_vcs_release = true
+

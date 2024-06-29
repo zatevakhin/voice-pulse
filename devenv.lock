@@ -3,11 +3,11 @@
     "devenv": {
       "locked": {
         "dir": "src/modules",
-        "lastModified": 1719054173,
+        "lastModified": 1719660252,
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "79911b1484a86f629bf0ce7fd796e2733e9ccd54",
-        "treeHash": "7eda8b417d2760235a23a607849701adebebf90e",
+        "rev": "58a9555a74f2e7b791717c45880e4a72d312aa22",
+        "treeHash": "6c56a0fed7c66bcfcf10dfc7ce6c78c02c9bbba0",
         "type": "github"
       },
       "original": {
@@ -49,24 +49,6 @@
         "type": "github"
       }
     },
-    "flake-utils": {
-      "inputs": {
-        "systems": "systems"
-      },
-      "locked": {
-        "lastModified": 1710146030,
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "b1d9ab70662946ef0850d488da1c9019f3a9752a",
-        "treeHash": "bd263f021e345cb4a39d80c126ab650bebc3c10c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -85,42 +67,6 @@
       "original": {
         "owner": "hercules-ci",
         "repo": "gitignore.nix",
-        "type": "github"
-      }
-    },
-    "mk-shell-bin": {
-      "locked": {
-        "lastModified": 1677004959,
-        "owner": "rrbutani",
-        "repo": "nix-mk-shell-bin",
-        "rev": "ff5d8bd4d68a347be5042e2f16caee391cd75887",
-        "treeHash": "496327dabdc787353a29987f492dd4939151baad",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rrbutani",
-        "repo": "nix-mk-shell-bin",
-        "type": "github"
-      }
-    },
-    "nix2container": {
-      "inputs": {
-        "flake-utils": "flake-utils",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1712990762,
-        "owner": "nlewo",
-        "repo": "nix2container",
-        "rev": "20aad300c925639d5d6cbe30013c8357ce9f2a2e",
-        "treeHash": "f9359d4b4e79c4e798a3018ae0ce3cb4317d4612",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nlewo",
-        "repo": "nix2container",
         "type": "github"
       }
     },
@@ -148,11 +94,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1717766341,
+        "lastModified": 1719586175,
         "owner": "cachix",
         "repo": "nixpkgs-python",
-        "rev": "d996260c2dfb1e4e6a68bb99121dd87adb40c2eb",
-        "treeHash": "d6bb915bafaac1f4b2bedeb18acda30e6b5d798f",
+        "rev": "34dd6c8bea3e62e17aa4b15523a8f69f4e941053",
+        "treeHash": "4c0a51db7cb462ece5b7faae612c1ebc71b39f22",
         "type": "github"
       },
       "original": {
@@ -163,11 +109,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1718811006,
+        "lastModified": 1719234068,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "03d771e513ce90147b65fe922d87d3a0356fc125",
-        "treeHash": "ab837eb82b2b0afbb6568f2b27f214324699af3d",
+        "rev": "90bd1b26e23760742fdcb6152369919098f05417",
+        "treeHash": "c87db871f241e42f31db9fb9936b61cb60f127ae",
         "type": "github"
       },
       "original": {
@@ -187,11 +133,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1718879355,
+        "lastModified": 1719259945,
         "owner": "cachix",
         "repo": "pre-commit-hooks.nix",
-        "rev": "8cd35b9496d21a6c55164d8547d9d5280162b07a",
-        "treeHash": "246f2197feb48979ccc58af4cab0cfd0f5738645",
+        "rev": "0ff4381bbb8f7a52ca4a851660fc7a437a4c6e07",
+        "treeHash": "1a76ff89a9d4017b48abbb1bad8837b35d604ffc",
         "type": "github"
       },
       "original": {
@@ -203,26 +149,9 @@
     "root": {
       "inputs": {
         "devenv": "devenv",
-        "mk-shell-bin": "mk-shell-bin",
-        "nix2container": "nix2container",
         "nixpkgs": "nixpkgs",
         "nixpkgs-python": "nixpkgs-python",
         "pre-commit-hooks": "pre-commit-hooks"
-      }
-    },
-    "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "treeHash": "cce81f2a0f0743b2eb61bc2eb6c7adbe2f2c6beb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
       }
     }
   },

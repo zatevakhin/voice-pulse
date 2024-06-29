@@ -4,6 +4,7 @@ on:
   pull_request:
 
 env:
+  X_SOURCE_DIR: voice_pulse
   X_POETRY_VERSION: 1.8.3
   X_POETRY_INSTALL_CACHE_KEY: poetry-0
 
@@ -25,7 +26,7 @@ jobs:
 
       - name: Load cached Poetry installation
         id: cached-poetry
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.local
           key: ${{ env.X_POETRY_INSTALL_CACHE_KEY }}
@@ -38,10 +39,11 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
 
-      - name: Cache dependencies
-        uses: actions/cache@v3
+      - name: Load Cached Poetry Virtualenvs
+        id: cache
+        uses: actions/cache@v4
         with:
-          path: .venv
+          path: ~/.cache/pypoetry/virtualenvs
           key: venv-${{ hashFiles('poetry.lock') }}
 
       - name: Install dependencies
@@ -68,35 +70,29 @@ jobs:
 
       - name: Load cached Poetry installation
         id: cached-poetry
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.local
           key: ${{ env.X_POETRY_INSTALL_CACHE_KEY }}
+          fail-on-cache-miss: true
 
-      - name: Install and configure Poetry
-        if: steps.cached-poetry.outputs.cache-hit != 'true'
-        uses: snok/install-poetry@v1
-        with:
-          version: ${{ env.X_POETRY_VERSION }}
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-
-      - name: Load cached venv
-        uses: actions/cache@v3
+      - name: Load Cached Poetry Virtualenvs
+        uses: actions/cache@v4
         id: cache
         with:
-          path: .venv
+          path: ~/.cache/pypoetry/virtualenvs
           key: venv-${{ hashFiles('poetry.lock') }}
+          fail-on-cache-miss: true
 
       - name: Run code style check
         run: |
           export PATH="${HOME}/.local/bin:${PATH}"
-          poetry run ruff format --check voice_pulse/
+          poetry run ruff format --check ${{ env.X_SOURCE_DIR }}
 
       - name: Run code lint
         run: |
           export PATH="${HOME}/.local/bin:${PATH}"
-          poetry run ruff check voice_pulse/
+          poetry run ruff check ${{ env.X_SOURCE_DIR }}
 
       - name: Build project
         run: |
